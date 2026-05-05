@@ -2,10 +2,11 @@ __all__ =(
     'User',
 )
 
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Integer, Boolean, Enum as SqlEnum
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base
+from app.models.choices import UserRoles
 
 
 class User(Base):
@@ -37,6 +38,19 @@ class User(Base):
         String(255),
         nullable=True,
         comment="User's phone number",
+    )
+    role: Mapped[UserRoles] = mapped_column(
+        SqlEnum(UserRoles),
+        default=UserRoles.seller,
+        server_default='seller',
+        nullable=False,
+        comment="User's role",
+    )
+    is_active: Mapped[bool] = mapped_column(
+        Boolean,
+        default=True,
+        nullable=False,
+        comment="Whether the user is active",
     )
 
 
