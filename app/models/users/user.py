@@ -2,9 +2,11 @@ __all__ =(
     'User',
 )
 
+from sqlalchemy import String, Integer
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, Column, Integer, DateTime, Boolean, ForeignKey
+
 from app.db.base import Base
+
 
 class User(Base):
     __tablename__ = "users"
@@ -31,7 +33,7 @@ class User(Base):
         nullable=False,
         comment="User's password",
     )
-    phone: Mapped[str] = mapped_column(
+    phone: Mapped[str | None] = mapped_column(
         String(255),
         nullable=True,
         comment="User's phone number",
