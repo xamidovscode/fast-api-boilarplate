@@ -3,9 +3,10 @@ from sqlalchemy import select
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.security import verify_password, create_access_token
+from app.core.jwt import verify_password, create_access_token
 from app.db.get_session import get_session
 from app.models import users
+from app.resources.permissions.current_user import get_current_user
 from . import schemas
 
 
@@ -40,3 +41,15 @@ async def login(
         'access_token': create_access_token(user),
     }
 
+
+
+@router.get("/profile")
+async def get_profile(user: users.User = Depends(get_current_user)):
+    return {
+        'user_id': user.id,
+        'username': user.username,
+        'full_name': user.full_name,
+        'phone': user.phone,
+        'is_active': user.is_active,
+        'role': user.role,
+    }
