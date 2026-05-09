@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from app.models.choices import UserRoles
 
 
-class UserCreateSchema(BaseModel):
+class SellerCreateSchema(BaseModel):
     username: str
     full_name: str
     password: str = Field(min_length=6, max_length=72)
@@ -11,7 +11,7 @@ class UserCreateSchema(BaseModel):
     role: UserRoles = UserRoles.seller
 
 
-class UsersListSchema(BaseModel):
+class SellersListSchema(BaseModel):
     id: int
     username: str
     full_name: str
